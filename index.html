@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <title>Weatherator v3</title>
+  <meta charset='utf-8'>  
+  <link href='https://fonts.googleapis.com/css?family=Hepta+Slab&display=swap' rel='stylesheet'>
+  <link rel='stylesheet' type='text/css' href='./css/style.css' />
+  <script src="./js/WeatherForecast.js"></script>
+  <script src="./js/clock.js"></script>
+  <script src="./js/script.js"></script>
+</head>
+<body> 
+    <h1>Weatherator v3.0</h1>
+    <div id='errorHolder' class='hidden'></div>
+
+    <section class='wrapper'>
+        <div class='left'>
+            <fieldset>
+                <legend>Current Location</legend>
+                    <button data-id='getCurrentWx'>Get Current Weather</button>
+                    <button data-id='getFiveDay'>Get 3 Hour Forecast</button>
+            </fieldset>
+            <fieldset>
+                <legend>Enter Zip Code</legend>
+                    <input type="text" id="zipBox" placeholder="Enter Zipcode"></input><br><br>
+                    <button data-id='getCurrentWxZip'> Get Current Weather </button>
+                    <button data-id='getFiveDayZip'> Get 3 Hour Forecast </button>
+            </fieldset>
+        </div>
+        <div class="center">
+            <!--Div added for future enhancement-->
+        </div>
+        <div class='right'>
+            <h2>Current Time</h2>
+            <canvas id='clock'></canvas>
+        </div>
+    </section>
+    <section>
+        <div class="banner" id="bannerHolder"></div>
+    </section>
+    <section class='wrapper'>
+            <div class='wxLeft' id='leftWxHolder'></div>
+            <div class="wxCenter" id='centerWxHolder'></div>
+            <div class="wxRight" id='rightWxHolder'></div>
+    </section>
+
+</body>
+</html>

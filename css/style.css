@@ -1,0 +1,83 @@
+body {
+    font-family: 'Hepta Slab', serif;
+    margin:auto;
+    width:80%;
+    background-color: darkgray;
+}
+
+
+div {
+    padding: 10px 10px 10px 10px;
+}
+
+fieldset {
+  border-color: black;
+  border-collapse: true;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.errorBox {
+    padding: 10px 0px 10px 10px;
+    background-color: #f73b31;
+    color:white;
+    display:block;
+    border-style: 1px dotted;
+    margin-bottom:1em;
+}
+
+.error {
+    background-color:red;
+}
+
+
+.hidden {
+    opacity: 0;
+    height:0px;
+    overflow:hidden;
+}
+
+.visible {
+    height:auto;
+    transition: all 0.5s ease-in-out;
+    opacity:1;
+}
+
+.wrapper {
+    display: flex;
+  }
+  
+.left {
+    flex: 0 0 25%;
+  }
+  
+.right {
+    flex: 2 35%;
+  }
+
+.center{
+  flex: 1 40%;
+}
+
+.loading {
+  background-image: url('../img/ajax-loader.gif');
+  background-repeat: no-repeat;
+}
+
+.wxLeft {
+  flex: 0 33%;
+}
+
+.wxCenter {
+  flex: 1 33%;
+}
+
+.wxRight {
+  flex: 2 33%;
+}
+
+.banner {
+  text-align: center;
+  display: block;
+}
+ 
