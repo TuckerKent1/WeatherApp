@@ -6,7 +6,8 @@
   <link href='https://fonts.googleapis.com/css?family=Hepta+Slab&display=swap' rel='stylesheet'>
   <link rel='stylesheet' type='text/css' href='./css/style.css' />
   <script src="./js/WeatherForecast.js"></script>
-  <script src="./js/clock.js"></script>
+  <script src="./js/analogClock.js"></script>
+  <script src="./js/digitalClock.js"></script>
   <script src="./js/script.js"></script>
 </head>
 <body> 
@@ -31,8 +32,11 @@
             <!--Div added for future enhancement-->
         </div>
         <div class='right'>
+            <input type="range" min="0" max="1" value="0" id="clockSelector">
+            <h4 id="clockType">Analog / Digital</h4>
             <h2>Current Time</h2>
-            <canvas id='clock'></canvas>
+            <canvas id='analogClock'></canvas>
+            <div id="digitalClock" class="hidden"></div>
         </div>
     </section>
     <section>

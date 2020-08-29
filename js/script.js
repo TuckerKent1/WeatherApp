@@ -1,36 +1,85 @@
 window.addEventListener('load', () => { //event listener on load event to call code
-    
-    startClock(); //starting the clock drawing -- code is in clock.js
 
-    const leftDiv = document.getElementById("leftWxHolder"); //declaring and setting reference to div element
-    const centerDiv = document.getElementById("centerWxHolder"); //declaring and setting reference to div element
-    const rightDiv = document.getElementById("rightWxHolder"); //declaring and setting reference to div element
+    //declaring and setting elements from index.html
+    const leftDiv = document.getElementById("leftWxHolder");
+    const centerDiv = document.getElementById("centerWxHolder");
+    const rightDiv = document.getElementById("rightWxHolder"); 
     const bannerHolder = document.getElementById("bannerHolder");
+    const errorHolder = document.getElementById("errorHolder");
+    const clockSlider = document.getElementById("clockSelector");
+    const canvasEl = document.getElementById("analogClock");
+    const digitalEl = document.getElementById("digitalClock")
+    const clockH4 = document.getElementById("clockType");
     let zipBox = document.getElementById("zipBox"); //input form element
     let dataAttList = document.querySelectorAll("button"); //return collection of button elements
     let userLat; //latitude variable
     let userLong; //longitude variable
-    
-    navigator.geolocation.getCurrentPosition(getCoords); //calling geolocation API --invokes getCoords() below
+    let zipBool;
 
-    document.addEventListener("click", (event) => { //adding event listener for click event on document -- for all buttons in one event
-        if(event.target === dataAttList[0]){ //if the click occurs on the get current weather button
-            getCurrentWX(null); //calls method to get current weather -- geo api
-        } else if(event.target === dataAttList[1]){
-            getFiveDay(null); //calls method to retrieve five day forecast -- geo api
-        } else if(event.target === dataAttList[2]){
-            getCurrentWX(zipBox.value); // current weather button -- zip
-        } else if(event.target === dataAttList[3]){
-            getFiveDay(zipBox.value); //3 hour forecast -- zip
+    //options for geolocation
+    const geoOptions = {
+        enableHighAccuracy: true,
+    }
+
+    //starting both clocks
+    startAnalogClock();
+    startDigitalClock();
+
+    //changing clock type display based on range slider value -- default is analog clock
+    clockSlider.addEventListener("change", () => {
+        if(clockSlider.value == 0){
+            digitalEl.setAttribute("class", "hidden");
+            canvasEl.setAttribute("class", "visible");
+            clockH4.innerHTML = "";
+            clockH4.innerHTML = `<strong>Analog</strong> / Digital`;
+        } else {
+            canvasEl.setAttribute("class", "hidden");
+            digitalEl.setAttribute("class", "visible");
+            clockH4.innerHTML = "";
+            clockH4.innerHTML = `Analog / <strong>Digital</strong>`;
         }
     });
 
+    //getting users current location
+    navigator.geolocation.getCurrentPosition(getCoords, geoError, geoOptions); //calling geolocation API --invokes getCoords() below
+
+    //click event for weather forecast buttons
+    document.addEventListener("click", (event) => { //adding event listener for click event on document -- for all buttons in one event
+        if(event.target === dataAttList[0]){ //if the click occurs on the get current weather button
+            getCurrentWX(null); //calls method to get current weather -- geo api
+            clearError();
+            let errorString = currentVal();
+            displayError(errorString);
+        } else if(event.target === dataAttList[1]){
+            getFiveDay(null); //calls method to retrieve five day forecast -- geo api
+            clearError();
+            let errorString = currentVal();
+            displayError(errorString);
+        } else if(event.target === dataAttList[2]){
+            clearError();
+            getCurrentWX(zipBox.value); // current weather button -- zip
+        } else if(event.target === dataAttList[3]){
+            clearError();
+            getFiveDay(zipBox.value); //3 hour forecast -- zip
+            
+        }
+    });
+
+    //getting and storing lat and long
     function getCoords(position) { //function to store lat and lon coordinates from geolocation
         userLat = position.coords.latitude; //storing latitude
         userLong = position.coords.longitude; //storing longitude
     }
 
+    //optional error callback for geolocation 
+    function geoError(error) {
+        let errorMessage = `Error: ${error.code}\n ${error.message}`;
+        displayError(errorMessage);
+    }
+
+    //function fetches, formats, and displays current weather 
     function getCurrentWX(zipCode) {
+        zipBool = true;
         let weatherURL = "";
         if(zipCode == null){
             weatherURL = `http://api.openweathermap.org/data/2.5/weather?lat=${userLat}&lon=${userLong}&units=imperial&appid=a0452beb301c4a3af9f5c0fda6bdcc97`; //geo api
@@ -75,10 +124,17 @@ window.addEventListener('load', () => { //event listener on load event to call c
             centerDiv.appendChild(innerDiv2);
             centerDiv.appendChild(innerDiv3);
         })
-        .catch(error => console.log("Error occurred during fetch operations " + error)); //if error log to console
+        .catch(error => {
+            console.log("Error occurred during fetch operations " + error);
+            zipBool = false;
+            let errorString = zipVal();
+            displayError(errorString);
+        }); //if error log to console
     }
 
-    function getFiveDay(zipCode) { //function to get the 3 part forecast
+    //function fetches, formats, and displays 3 hour forecast
+    function getFiveDay(zipCode) {
+        zipBool = true;
         let fiveDayURL = "";
         if(zipCode == null){
             fiveDayURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${userLat}&lon=${userLong}&units=imperial&appid=a0452beb301c4a3af9f5c0fda6bdcc97`; //geo api
@@ -152,9 +208,15 @@ window.addEventListener('load', () => { //event listener on load event to call c
                 }
             }
         })
-        .catch(error => console.log("Error occurred during fetch operations " + error)); //if error occurs during fetch -- logging 
+        .catch(error => {
+            console.log("Error occurred during fetch operations " + error);
+            zipBool = false;
+            let errorString = zipVal();
+            displayError(errorString);
+        }); //if error occurs during fetch -- logging 
     }
 
+    //fetch and display weather icon
     function getIcon(iconCode){
         let iconURL = `http://openweathermap.org/img/wn/${iconCode}@2x.png`
 
@@ -172,6 +234,51 @@ window.addEventListener('load', () => { //event listener on load event to call c
             rightDiv.appendChild(iconImage);
             })
         .catch(error => console.log(error + "Error occurred during image fetch"));
+    }
+
+    //clears the error holder div and sets class to hidden
+    function clearError() {
+        errorHolder.innerHTML = "";
+        errorHolder.setAttribute("class", "hidden");
+    }
+
+    //validation for zipcode entry
+    function zipVal() {
+        let errorString = "";
+        let zip = zipBox.value;
+        zip = zip.toString();
+        if (zip.length !== 5 && zip.length > 0){
+            let zipMessage = `Zip Code can only contain 5 digits`;
+            return zipMessage;
+        } else if (zipBool == false && userLat !== undefined && userLong !== undefined){
+            let invalidMessage = `Uh oh, the Zip Code you entered may not exist or the weather application may be experiencing issues. Enter a valid code or try again later`;
+            return invalidMessage;
+        } else {
+            return errorString;
+        }
+    }
+
+    //validation for current location when retrieving weather
+    function currentVal() {
+        let errorString = "";
+        if(userLat == undefined && userLong == undefined){
+            let geoMessage = `To use current location, reload the page and select allow when prompted`;
+            errorString += geoMessage;          
+        }
+        return errorString;
+    }
+
+    //function to display errors in errorHolder div
+    function displayError(errorString){
+        if(errorString !== ""){
+            let errUl = document.createElement("ul");
+            let errLi = document.createElement("li");
+            errLi.innerText = errorString;
+            errorHolder.appendChild(errUl);
+            errorHolder.appendChild(errLi);
+            errorHolder.setAttribute("class", "visible");
+            errorHolder.setAttribute("class", "errorBox");
+        }
     }
 
 

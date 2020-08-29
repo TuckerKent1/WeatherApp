@@ -12,9 +12,16 @@ div {
 
 fieldset {
   border-color: black;
-  border-collapse: true;
   margin-top: 20px;
   padding: 20px;
+}
+
+fieldset button {
+  display: inline-block;
+}
+
+h4 {
+  margin-top: 0px;
 }
 
 .errorBox {
@@ -48,15 +55,15 @@ fieldset {
   }
   
 .left {
-    flex: 0 0 25%;
+    flex: 0 0 45%;
   }
   
 .right {
-    flex: 2 35%;
+    flex: 2 25%;
   }
 
 .center{
-  flex: 1 40%;
+  flex: 1 30%;
 }
 
 .loading {
@@ -79,5 +86,24 @@ fieldset {
 .banner {
   text-align: center;
   display: block;
+}
+
+#digitalClock {
+  font-size: 2em;
+  background-color: black;
+  color: white;
+}
+
+/* the following 2 styles are for the range slider */
+input[type=range]::-webkit-slider-runnable-track{
+  background-color: rgb(116, 49, 49);
+  border-radius: 20px;
+}
+
+/* for mozilla styling */
+input[type=range]::-moz-range-track{
+  background-color: rgb(116, 49, 49);
+  border-radius: 20px;
+  
 }
  
