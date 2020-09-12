@@ -5,6 +5,7 @@ window.addEventListener('load', () => { //event listener on load event to call c
     const centerDiv = document.getElementById("centerWxHolder");
     const rightDiv = document.getElementById("rightWxHolder"); 
     const bannerHolder = document.getElementById("bannerHolder");
+    const bannerPic = document.getElementById("bannerPic");
     const errorHolder = document.getElementById("errorHolder");
     const clockSlider = document.getElementById("clockSelector");
     const canvasEl = document.getElementById("analogClock");
@@ -31,12 +32,12 @@ window.addEventListener('load', () => { //event listener on load event to call c
             digitalEl.setAttribute("class", "hidden");
             canvasEl.setAttribute("class", "visible");
             clockH4.innerHTML = "";
-            clockH4.innerHTML = `<strong>Analog</strong> / Digital`;
+            clockH4.innerHTML = `Analog / Digital`;
         } else {
             canvasEl.setAttribute("class", "hidden");
             digitalEl.setAttribute("class", "visible");
             clockH4.innerHTML = "";
-            clockH4.innerHTML = `Analog / <strong>Digital</strong>`;
+            clockH4.innerHTML = `Analog / Digital`;
         }
     });
 
@@ -99,6 +100,8 @@ window.addEventListener('load', () => { //event listener on load event to call c
             rightDiv.innerHTML = ""; //resetting div in case of multiple calls
             bannerHolder.innerHTML = "";
 
+            let weatherCode = `${data.weather[0].id}`
+            setWeatherPic(weatherCode);
             let location = document.createElement("h2");
             location.innerHTML = `${data.name}`;
 
@@ -149,10 +152,14 @@ window.addEventListener('load', () => { //event listener on load event to call c
             throw new Error(response.statusText); //if error -- logging
         })
         .then(data => { //working with json data returned
-            leftDiv.innerHTML = ""; //resetting div in case of multiple calls
-            centerDiv.innerHTML = ""; //resetting div in case of multiple calls
-            rightDiv.innerHTML = ""; //resetting div in case of multiple calls
+            leftDiv.innerHTML = ""; //resetting these divs in case of multiple calls
+            centerDiv.innerHTML = ""; 
+            rightDiv.innerHTML = "";
             bannerHolder.innerHTML = "";
+
+            let weatherCode = `${data.list[0].weather[0].id}`;
+            setWeatherPic(weatherCode);
+            
             let h2 = document.createElement("h2"); //creating h2 element
             h2.innerHTML = `${data.city.name}`; //setting city name in h2 element
 
@@ -234,6 +241,23 @@ window.addEventListener('load', () => { //event listener on load event to call c
             rightDiv.appendChild(iconImage);
             })
         .catch(error => console.log(error + "Error occurred during image fetch"));
+    }
+
+    function setWeatherPic(wCode){
+        bannerPic.setAttribute("id", "");
+        let currentTime = new Date();
+        currentTime = currentTime.getHours();
+        if(wCode >= 200 && wCode <= 531 || wCode >= 701 && wCode <= 781){ //rain
+            bannerPic.setAttribute("id", "rain");
+        } else if(wCode == 800){ //clear
+            if(currentTime >= 6 && currentTime <= 19){ //daytime
+                bannerPic.setAttribute("id", "dayClear");
+            } else { //night time
+                bannerPic.setAttribute("id", "nightClear");
+            }
+        } else if(wCode >= 801 && wCode <= 804){ //cloudy
+            bannerPic.setAttribute("id", "clouds");
+        }
     }
 
     //clears the error holder div and sets class to hidden

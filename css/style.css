@@ -1,13 +1,25 @@
 body {
     font-family: 'Hepta Slab', serif;
     margin:auto;
-    width:80%;
-    background-color: darkgray;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    width: 80%;
+    height: 100vh;
+    background-color: rgb(202, 200, 200);
+    padding-bottom: 20px;
+}
+
+#pageWrapper{
+  height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: darkgray;
 }
 
 
 div {
     padding: 10px 10px 10px 10px;
+    margin-bottom: 0px;
 }
 
 fieldset {
@@ -18,6 +30,10 @@ fieldset {
 
 fieldset button {
   display: inline-block;
+}
+
+h1 {
+  margin-top: 0px;
 }
 
 h4 {
@@ -52,6 +68,7 @@ h4 {
 
 .wrapper {
     display: flex;
+    padding-bottom: 20px;
   }
   
 .left {
@@ -92,6 +109,31 @@ h4 {
   font-size: 2em;
   background-color: black;
   color: white;
+}
+
+#dayClear {
+  background-image: url("../images/Optimized-sunshine.jpg");
+  background-repeat: none;
+  background-size: cover;
+}
+
+#nightClear {
+  background-image: url("../images/Optimized-night.jpg");
+  background-repeat: none;
+  background-size: cover;
+  color: whitesmoke;
+}
+
+#rain {
+  background-image: url("../images/Optimized-rain.jpg");
+  background-repeat: none;
+  background-size: cover;
+}
+
+#clouds {
+  background-image: url("../images/Optimized-cloudy.jpg");
+  background-repeat: none;
+  background-size: cover;
 }
 
 /* the following 2 styles are for the range slider */
