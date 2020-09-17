@@ -3,3 +3,5 @@
 This is a single-page app created with JavaScript and HTML. 
 
 It started as a class assignment, but I added some extra functionality to it.
+
+All weather background photos belong to public domain.
