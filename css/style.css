@@ -5,15 +5,14 @@ body {
     margin-bottom: 0px;
     width: 80%;
     height: 100vh;
-    background-color: rgb(202, 200, 200);
+    background-color: rgb(226, 215, 215);
     padding-bottom: 20px;
 }
 
 #pageWrapper{
-  height: 100vh;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: darkgray;
+  margin: 0 auto;
+  background-color: rgb(207, 196, 189);
+  box-shadow: 0px 1px 10px 1px black;
 }
 
 
@@ -24,8 +23,14 @@ div {
 
 fieldset {
   border-color: black;
+  box-shadow: 0px 2px 3px 3px black;
   margin-top: 20px;
   padding: 20px;
+}
+
+legend {
+  background-color: rgb(207, 196,189);
+  font-weight: bold;
 }
 
 fieldset button {
@@ -33,11 +38,21 @@ fieldset button {
 }
 
 h1 {
+  font-size: 2.2rem;
+  text-align: center;
   margin-top: 0px;
+  padding-top: 30px;
 }
 
 h4 {
   margin-top: 0px;
+}
+
+footer {
+  text-align: center;
+  font-size: 0.75em;
+  border-top: 1px solid black;
+  padding: 15px 0px;
 }
 
 .errorBox {
@@ -76,11 +91,11 @@ h4 {
   }
   
 .right {
-    flex: 2 25%;
+    flex: 2 40%;
   }
 
 .center{
-  flex: 1 30%;
+  flex: 1 15%;
 }
 
 .loading {
@@ -108,6 +123,7 @@ h4 {
 #digitalClock {
   font-size: 2em;
   background-color: black;
+  max-width: 60%;
   color: white;
 }
 
